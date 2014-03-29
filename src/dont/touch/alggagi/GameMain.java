@@ -176,10 +176,15 @@ public class GameMain
 	{
 		if(CheckEnd()==0)
 		{
-			
+			System.exit(0);
 		}
 		else if(CheckEnd()==1)
 		{
+			System.exit(0);
+		}
+		else if(CheckEnd()==2)
+		{
+			System.exit(0);
 		}
 		
 		for ( int i = 0; i < GameList.size(); i++ )
