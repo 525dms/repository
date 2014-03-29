@@ -1,6 +1,6 @@
 package dont.touch.alggagi;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.ListIterator;
 import org.opencv.android.OpenCVLoader;
@@ -10,8 +10,6 @@ import android.app.Activity;
 import android.hardware.Camera.Size;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -21,8 +19,6 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class Test01 extends Activity implements OnClickListener
@@ -39,7 +35,6 @@ public class Test01 extends Activity implements OnClickListener
     private SubMenu mResolutionMenu;
     public Button btn;
 	int cnt=0;
-    private SeekBar mSeekbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -53,23 +48,11 @@ public class Test01 extends Activity implements OnClickListener
         j = (MyCameraView)findViewById(R.id.java_surface_view);
         listener = new MyCameraListener(getApplicationContext(), j);
         j.setCvCameraViewListener(listener);
-        //btn = new Button(this);
-        //btn.setOnClickListener(this);
-        //btn.setText("P\nU\nS\nH");
-        FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 140 ,Gravity.RIGHT);
         sImg = new GameMain( this, gInfo );
         play = new GLView( this, sImg );
         play.setRenderer( new SurfaceClass(sImg) );
         j.setVisibility(SurfaceView.VISIBLE);
         addContentView(play, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        SeekBar f = new SeekBar(this);
-        //f.setRotationX(20);
-        //f.setRotationY(20);
-        f.setMax(20);
-        //f.getHorizontalFadingEdgeLength();
-        //f.setVerticalScrollbarPosition(0);
-        f.setRotation(180);
-        //addContentView(f, buttonParams);
     }
     
     @Override

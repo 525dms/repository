@@ -143,20 +143,20 @@ public class GameMain
 				W++;
 			}
 		}
-		Log.d("EJ", "While("+W+")black("+B+")");
+		//Log.d("EJ", "While("+W+")black("+B+")");
 		if(W==0 && B==0)
 		{
-			Log.d("EJ", "draw!");
+			//Log.d("EJ", "draw!");
 			return 2;
 		}
 		else if(W==0)
 		{
-			Log.d("EJ", "Black Win!");
+			//Log.d("EJ", "Black Win!");
 			return 0;
 		}
 		else if(B==0)
 		{
-			Log.d("EJ", "White Win!");
+			//Log.d("EJ", "White Win!");
 			return 1;
 		}
 		else
@@ -174,7 +174,13 @@ public class GameMain
 	}
 	public void DoGame()
 	{
-		CheckEnd();
+		if(CheckEnd()==0)
+		{
+			
+		}
+		else if(CheckEnd()==1)
+		{
+		}
 		
 		for ( int i = 0; i < GameList.size(); i++ )
 		{

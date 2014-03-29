@@ -27,8 +27,6 @@ public class MyCameraListener implements CvCameraViewListener2{
 	Button btn;
 	private static final String TAG = "HandDetector";
 	private static final Scalar DETECT_COLOR = new Scalar(0, 0, 255, 255);
-	private static final Scalar AREA_COLOR = new Scalar(255, 0, 0, 255);
-	private static int temps = 0;
 	private MyCameraView mOpenCvCameraView;
 	// webV
 	private Mat mRgba;
@@ -44,15 +42,7 @@ public class MyCameraListener implements CvCameraViewListener2{
 	
 	private static Scalar LOWER_RANGE;
 	private static Scalar UPPER_RANGE;
-	private static final float EDGE_ANGLE = 60.0f;
-	private Point fp = new Point();
-	private enum ViewType {
-		RGB, HSV, BLUR, BIN, DIST
-	};
-	private ViewType mode = ViewType.RGB;
 	private float xRate, yRate;
-	private Test01 ss;
-	private Object temp;
 	public MyCameraListener(Context context, MyCameraView base)
 	{
 		mContext = context;
@@ -60,7 +50,7 @@ public class MyCameraListener implements CvCameraViewListener2{
 		mOpenCvCameraView.setMaxFrameSize(800, 480);
 		//mOpenCvCameraView.setExposure(0);
 		//mOpenCvCameraView.setCameraIndex(MyCameraView.CAMERA_ID_FRONT/*BACK*/);
-		mOpenCvCameraView.setCameraIndex(MyCameraView.CAMERA_ID_BACK);
+		//mOpenCvCameraView.setCameraIndex(MyCameraView.CAMERA_ID_BACK);
 		//mOpenCvCameraView.setRotation(0);
 	}
 	
@@ -130,7 +120,7 @@ public class MyCameraListener implements CvCameraViewListener2{
 			// if this line return mRgba, fps = 8~15
 			try {
 				// (0) flip around y-axis
-				//Core.flip(mRgba, mRgba, 1);
+				Core.flip(mRgba, mRgba, 1);
 				
 				// Core.flip 화면 전환. 이것을 빼면 back \
 				// camera의 방향이 정상적으로 돌아온다.
@@ -179,13 +169,11 @@ public class MyCameraListener implements CvCameraViewListener2{
 				}
 				
 				// (7) find convex hull
-				int edgeCount = 0, fingerCount = 0;
 				if ((maxContours != null) && (maxContours.checkVector(2, CvType.CV_32S) > 10)) {
 					MatOfInt hull = new MatOfInt();
 					MatOfInt4 detectedHull = new MatOfInt4();
 					Imgproc.convexHull(maxContours, hull);
 					Imgproc.convexityDefects(maxContours, hull, detectedHull);
-					double x, y;
 					int[] hulls = detectedHull.toArray(); // TODO: Use Matrix!
 					for (int i = 0; i < hulls.length ; i += 4) {
 						// choose only deeper depth
@@ -196,7 +184,7 @@ public class MyCameraListener implements CvCameraViewListener2{
 								Core.circle(mRgba, points[j], 1, DETECT_COLOR);
 								if(GetDistance((float)points[j].x*xRate, (float)points[j].y*yRate, Test01.sImg.Current.x, Test01.sImg.Current.y) < 25)
 								{
-									Test01.sImg.ajni.jniReceive(Test01.sImg.Current.ObjNum, (float)points[j].x*xRate, (float)points[j].y*yRate, Test01.sImg.Current.x,
+									GameMain.ajni.jniReceive(Test01.sImg.Current.ObjNum, (float)points[j].x*xRate, (float)points[j].y*yRate, Test01.sImg.Current.x,
 											Test01.sImg.Current.y);
 									Test01.sImg.Current = null;
 									Test01.sImg.DoGame();
@@ -216,8 +204,8 @@ public class MyCameraListener implements CvCameraViewListener2{
 		}
 		else
 		{
-			//Core.flip(mRgba, mRgba, 1);
-		    // Imgproc.resize(mRgba, mRgba , mRgba.size());
+			Core.flip(mRgba, mRgba, 1);
+		    Imgproc.resize(mRgba, mRgba , mRgba.size());
 		}
 		return mRgba;
 	}
